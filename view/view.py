@@ -3,6 +3,7 @@ from view.methode_lu import LUView
 from view.methode_gauss import GaussView
 from view.methode_graphique import GraphicView
 from view.methode_simplexe import SimplexeView
+from view.regression_lineaire import RLView
 
 class View:
     """Vue : gère l'interface graphique."""
@@ -56,7 +57,20 @@ class View:
         }
 
         for i, (text, bg_color, active_color) in enumerate(buttons_data):
-            btn = tk.Button( button_frame, text=text, font=("Arial", 16, "bold"), command=None, width=20, height=2, bg=bg_color, fg="white", bd=0, relief="flat", activebackground=active_color, cursor="hand2" )
+            btn = tk.Button(
+                button_frame,
+                text=text,
+                font=("Arial", 16, "bold"),
+                command=lambda key=text: self.show_frame(buttons_map[key]),
+                width=20,
+                height=2,
+                bg=bg_color,
+                fg="white",
+                bd=0,
+                relief="flat",
+                activebackground=active_color,
+                cursor="hand2"
+            )
             btn.pack(pady=15)
 
             key = buttons_map[text]
@@ -93,7 +107,7 @@ class View:
                 button_frame,
                 text="Méthode graphiques",
                 font=("Arial", 16, "bold"),
-                command=lambda: self.show_frame("methode_graphique"),  # 🟢 redirection ici
+                command=lambda: self.show_frame("methode_graphique"),
                 width=20,
                 height=2,
                 bg="#8B5CF6",
@@ -111,7 +125,7 @@ class View:
                 button_frame,
                 text="Méthode Simplexe",
                 font=("Arial", 16, "bold"),
-                command=lambda: self.show_frame("methode_simplexe"),  # ✅ affiche la vue
+                command=lambda: self.show_frame("methode_simplexe"),
                 width=20,
                 height=2,
                 bg="#EF4444",
@@ -154,6 +168,10 @@ class View:
             self.sub_views[section] = GraphicView(content_frame, self.go_home_callback)
         elif section == "methode_simplexe":
             self.sub_views[section] = SimplexeView(content_frame, self.go_home_callback)
+        elif section == "regression_lineaire":
+            self.sub_views[section] = RLView(content_frame, self.go_home_callback)
+
+
 
 
     def set_message(self, message: str, section=None):
