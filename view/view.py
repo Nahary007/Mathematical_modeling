@@ -102,7 +102,8 @@ class View:
         if section == "systemes_lu":
             self.sub_views[section] = LUView(content_frame, self.go_home_callback, self.compute_lu_callback)
         elif section == "systemes_gauss":
-            self.sub_views[section] = GaussView(content_frame, self.go_home_callback)
+            self.sub_views[section] = GaussView(content_frame, self.go_home_callback, self.compute_gauss_callback)
+
 
 
     def set_message(self, message: str, section=None):
@@ -128,3 +129,6 @@ class View:
     
     def set_compute_lu_callback(self, cb):
         self.compute_lu_callback = cb
+
+    def set_compute_gauss_callback(self, cb):
+        self.compute_gauss_callback = cb
