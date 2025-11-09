@@ -2,6 +2,7 @@ import tkinter as tk
 from view.methode_lu import LUView
 from view.methode_gauss import GaussView
 from view.methode_graphique import GraphicView
+from view.methode_simplexe import SimplexeView
 
 class View:
     """Vue : gère l'interface graphique."""
@@ -106,11 +107,11 @@ class View:
             self.buttons['methode_graphique'] = graphique_btn
 
             # Méthode Simplexe
-            gauss_btn = tk.Button(
+            simplexe_btn = tk.Button(
                 button_frame,
                 text="Méthode Simplexe",
                 font=("Arial", 16, "bold"),
-                command=None,
+                command=lambda: self.show_frame("methode_simplexe"),  # ✅ affiche la vue
                 width=20,
                 height=2,
                 bg="#EF4444",
@@ -120,8 +121,9 @@ class View:
                 activebackground="#DC2626",
                 cursor="hand2"
             )
-            gauss_btn.pack(pady=10)
-            self.buttons['methode_simplexe'] = gauss_btn
+            simplexe_btn.pack(pady=10)
+            self.buttons['methode_simplexe'] = simplexe_btn
+
 
         else:
             message_label = tk.Label( content_frame, text="Contenu détaillé à venir... Explorez les concepts ici !", font=("Arial", 14), bg="white", fg="#4B5563", wraplength=500, justify="center" )
@@ -149,11 +151,9 @@ class View:
             self.sub_views[section] = GaussView(content_frame, self.go_home_callback, self.compute_gauss_callback)
 
         elif section == "methode_graphique":
-            # 🟢 Ajout de la vue graphique ici
             self.sub_views[section] = GraphicView(content_frame, self.go_home_callback)
-
-
-
+        elif section == "methode_simplexe":
+            self.sub_views[section] = SimplexeView(content_frame, self.go_home_callback)
 
 
     def set_message(self, message: str, section=None):
