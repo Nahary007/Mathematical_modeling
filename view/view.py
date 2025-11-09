@@ -100,9 +100,10 @@ class View:
             content_frame = tk.Frame(self.root, bg="white")
             self.frames[section] = content_frame
         if section == "systemes_lu":
-            self.sub_views[section] = LUView(content_frame, self.go_home_callback)
+            self.sub_views[section] = LUView(content_frame, self.go_home_callback, self.compute_lu_callback)
         elif section == "systemes_gauss":
             self.sub_views[section] = GaussView(content_frame, self.go_home_callback)
+
 
     def set_message(self, message: str, section=None):
         if section == "home":
@@ -124,3 +125,6 @@ class View:
     # Exposer pour le controller
     def get_go_home_callback(self):
         return self.go_home_callback
+    
+    def set_compute_lu_callback(self, cb):
+        self.compute_lu_callback = cb
