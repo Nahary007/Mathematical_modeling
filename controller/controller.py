@@ -17,6 +17,11 @@ class Controller:
         self.view.buttons['programmation_lineaire'].config(command=lambda: self.go_to_section('programmation_lineaire'))
         self.view.buttons['regression_lineaire'].config(command=lambda: self.go_to_section('regression_lineaire'))
 
+        if 'systemes_lu' in self.view.buttons:
+            self.view.buttons['systemes_lu'].config(command=lambda: self.go_to_section('systemes_lu'))
+        if 'systemes_gauss' in self.view.buttons:
+            self.view.buttons['systemes_gauss'].config(command=lambda: self.go_to_section('systemes_gauss'))
+
         for section in ['systemes_lineaires', 'programmation_lineaire', 'regression_lineaire']:
             self.view.back_buttons[section].config(command=lambda s=section: self.go_home())
 
