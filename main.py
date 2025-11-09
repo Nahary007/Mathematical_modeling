@@ -5,11 +5,10 @@ from view.view import View
 
 def main():
     root = tk.Tk()
-
     model = Model()
     view = View(root)
     controller = Controller(model, view)
-
     root.mainloop()
 
-main()
+if __name__ == "__main__":
+    main()

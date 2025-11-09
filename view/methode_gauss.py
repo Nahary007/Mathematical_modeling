@@ -1,97 +1,72 @@
 import tkinter as tk
+from tkinter import messagebox
 
 class GaussView:
-    """Vue spécifique pour la méthode de Gauss."""
+    """Vue pour méthode de Gauss."""
 
-    def __init__(self, parent, go_home_callback, compute_callback):
+    def __init__(self, parent, back_callback, controller):
         self.parent = parent
-        self.go_home_callback = go_home_callback
-        self.compute_callback = compute_callback
+        self.back_callback = back_callback
+        self.controller = controller
+        self.setup_ui()
 
+    def setup_ui(self):
         # Titre
-        title_label = tk.Label(
-            self.parent,
-            text="Méthode de Gauss",
-            font=("Arial", 24, "bold"),
-            bg="white",
-            fg="#B91C1C"   # rouge style pro
-        )
+        title_label = tk.Label(self.parent, text="Méthode de Gauss", font=("Arial", 24, "bold"), bg="white", fg="#1E3A8A")
         title_label.pack(pady=25)
-
-        # FRAME MATRICE A
+        # Frame A
         frm_A = tk.Frame(self.parent, bg="white")
         frm_A.pack(pady=10)
-
-        tk.Label(frm_A, text="Matrice A (3x3)", bg="white",
-                 font=("Arial",14,"bold")).pack()
-
+        tk.Label(frm_A, text="Matrice A (3x3)", bg="white", font=("Arial", 14, "bold")).pack(pady=5)
         self.entriesA = []
         for i in range(3):
             row = []
             rframe = tk.Frame(frm_A, bg="white")
-            rframe.pack()
+            rframe.pack(pady=2)
             for j in range(3):
-                e = tk.Entry(rframe, width=6, font=("Arial",14))
-                e.pack(side="left", padx=5, pady=3)
+                e = tk.Entry(rframe, width=8, font=("Arial", 12), justify="center")
+                e.pack(side="left", padx=2)
                 row.append(e)
             self.entriesA.append(row)
-
-        # vecteur B
+        # Frame B
         frm_B = tk.Frame(self.parent, bg="white")
         frm_B.pack(pady=10)
-
-        tk.Label(frm_B, text="Vecteur B", bg="white",
-                 font=("Arial",14,"bold")).pack()
-
+        tk.Label(frm_B, text="Vecteur B", bg="white", font=("Arial", 14, "bold")).pack(pady=5)
         self.entriesB = []
         bframe = tk.Frame(frm_B, bg="white")
-        bframe.pack()
+        bframe.pack(pady=2)
         for i in range(3):
-            e = tk.Entry(bframe, width=6, font=("Arial",14))
-            e.pack(side="left", padx=10, pady=3)
+            e = tk.Entry(bframe, width=8, font=("Arial", 12), justify="center")
+            e.pack(side="left", padx=5)
             self.entriesB.append(e)
-
-        # bouton calculer
+        # Bouton calcul
         calc_btn = tk.Button(
-            self.parent,
-            text="Calculer Gauss",
-            font=("Arial",14,"bold"),
-            bg="#EF4444",
-            fg="white",
-            bd=0,
-            relief="flat",
-            activebackground="#DC2626",
-            cursor="hand2",
-            command=self.compute_callback
+            self.parent, text="Calculer Gauss", font=("Arial", 14, "bold"), bg="#10B981", fg="white",
+            bd=0, relief="flat", activebackground="#059669", cursor="hand2", width=15,
+            command=self.controller.compute_GAUSS
         )
         calc_btn.pack(pady=15)
-
-        # zone résultat
-        self.result_text = tk.Text(self.parent, width=70, height=12,
-                                   font=("Consolas",12))
+        # Résultats
+        self.result_text = tk.Text(self.parent, width=80, height=15, font=("Consolas", 11), wrap=tk.NONE)
         self.result_text.pack(pady=20)
-
-        # bouton retour
+        # Bouton retour
         back_btn = tk.Button(
-            self.parent,
-            text="← Retour",
-            font=("Arial", 12, "bold"),
-            command=go_home_callback,
-            bg="#6B7280",
-            fg="white",
-            bd=0,
-            relief="flat",
-            activebackground="#4B5563",
-            cursor="hand2"
+            self.parent, text="← Retour", font=("Arial", 12, "bold"), bg="#6B7280", fg="white",
+            bd=0, relief="flat", activebackground="#4B5563", cursor="hand2", command=self.back_callback
         )
         back_btn.pack(pady=15)
 
     def get_values(self):
-        A = [[float(self.entriesA[i][j].get()) for j in range(3)]
-             for i in range(3)]
-        B = [float(self.entriesB[i].get()) for i in range(3)]
-        return A, B
+        try:
+            A = [[float(self.entriesA[i][j].get()) for j in range(3)] for i in range(3)]
+            B = [float(self.entriesB[i].get()) for i in range(3)]
+            return A, B
+        except ValueError:
+            raise ValueError("Entrez des valeurs numériques valides dans tous les champs.")
 
     def show_result(self, text):
         self.result_text.delete("1.0", tk.END)
         self.result_text.insert(tk.END, text)
+
+    def show_error(self, msg):
+        messagebox.showerror("Erreur", msg)
