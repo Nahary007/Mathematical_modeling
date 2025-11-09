@@ -1,6 +1,7 @@
 import tkinter as tk
 from view.methode_lu import LUView
 from view.methode_gauss import GaussView
+from view.methode_graphique import GraphicView
 
 class View:
     """Vue : gère l'interface graphique."""
@@ -82,6 +83,46 @@ class View:
             gauss_btn.pack(pady=10)
             self.buttons['systemes_gauss'] = gauss_btn
 
+        elif section == "programmation_lineaire":
+            button_frame = tk.Frame(content_frame, bg="white")
+            button_frame.pack(expand=True, pady=20)
+
+            # Méthode graphique
+            graphique_btn = tk.Button(
+                button_frame,
+                text="Méthode graphiques",
+                font=("Arial", 16, "bold"),
+                command=lambda: self.show_frame("methode_graphique"),  # 🟢 redirection ici
+                width=20,
+                height=2,
+                bg="#8B5CF6",
+                fg="white",
+                bd=0,
+                relief="flat",
+                activebackground="#7C3AED",
+                cursor="hand2"
+            )
+            graphique_btn.pack(pady=10)
+            self.buttons['methode_graphique'] = graphique_btn
+
+            # Méthode Simplexe
+            gauss_btn = tk.Button(
+                button_frame,
+                text="Méthode Simplexe",
+                font=("Arial", 16, "bold"),
+                command=None,
+                width=20,
+                height=2,
+                bg="#EF4444",
+                fg="white",
+                bd=0,
+                relief="flat",
+                activebackground="#DC2626",
+                cursor="hand2"
+            )
+            gauss_btn.pack(pady=10)
+            self.buttons['methode_simplexe'] = gauss_btn
+
         else:
             message_label = tk.Label( content_frame, text="Contenu détaillé à venir... Explorez les concepts ici !", font=("Arial", 14), bg="white", fg="#4B5563", wraplength=500, justify="center" )
             message_label.pack(pady=20, padx=50)
@@ -95,14 +136,23 @@ class View:
     def create_sub_view_frame(self, section):
         if section in self.sub_views:
             return
+
         content_frame = self.frames.get(section)
         if not content_frame:
             content_frame = tk.Frame(self.root, bg="white")
             self.frames[section] = content_frame
+
         if section == "systemes_lu":
             self.sub_views[section] = LUView(content_frame, self.go_home_callback, self.compute_lu_callback)
+
         elif section == "systemes_gauss":
             self.sub_views[section] = GaussView(content_frame, self.go_home_callback, self.compute_gauss_callback)
+
+        elif section == "methode_graphique":
+            # 🟢 Ajout de la vue graphique ici
+            self.sub_views[section] = GraphicView(content_frame, self.go_home_callback)
+
+
 
 
 
